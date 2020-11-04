@@ -10,7 +10,7 @@
                          [String]$mailbox= "{{ mailbox }}"
                          New-AdGroup -Name "Automations" -SamAccountName Automations -Groupcategory security -groupscope global -Path "OU=IT,DC=domain,DC=com"
                          Add-ADGroupMember -identity "Automations" -Members $username1
-                         $password=ConvertTo-SecureString "abc@123*" -AsPlainText -force
+                         $password=ConvertTo-SecureString "" -AsPlainText -force
                          $cred=new-object System.Management.Automation.PSCredential("Akanksha@mailbox08.onmicrosoft.com",$password)
                          $session=  New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://ps.outlook.com/powershell/ -Credential $cred -Authentication Basic -AllowRedirection
                          Import-PSSession -Session $session -DisableNameChecking
