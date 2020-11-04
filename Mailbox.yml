@@ -1,1 +1,21 @@
+---
+- hosts: win
+  vars:
+    username: "{{ name1 }}"
+    sharedmailbox: "{{ mailbox }}"
+  tasks:
+          - name: Running windows host
+            win_shell: |
+                         [String]$username1 = "{{ username }}"
+                         [String]$mailbox= "{{ mailbox }}"
+                         New-AdGroup -Name "Automations" -SamAccountName Automations -Groupcategory security -groupscope global -Path "OU=IT,DC=domain,DC=com"
+                         Add-ADGroupMember -identity "Automations" -Members $username1
+                         $password=ConvertTo-SecureString "abc@123*" -AsPlainText -force
+                         $cred=new-object System.Management.Automation.PSCredential("Akanksha@mailbox08.onmicrosoft.com",$password)
+                         $session=  New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://ps.outlook.com/powershell/ -Credential $cred -Authentication Basic -AllowRedirection
+                         Import-PSSession -Session $session -DisableNameChecking
+                         $user= Get-Aduser -Identity $username1
+                        i $user1=$user.SamAccountName
+                         Add-MailboxPermission -Identity $mailbox -AccessRights FullAccess -InheritanceType All -AutoMapping:$true -User $user1
+                         Add-RecipientPermission -Identity $mailbox -AccessRights SendAs -Confirm:$false -Trustee $user1
 
