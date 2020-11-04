@@ -1,5 +1,5 @@
 ---
-- hosts: win218732874949
+- hosts: win
   vars:
     username: "{{ name1 }}"
 
