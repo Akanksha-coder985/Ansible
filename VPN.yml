@@ -1,1 +1,13 @@
+---
+- hosts: win
+  vars:
+    username: "{{ name1 }}"
+
+  tasks:
+          - name: Running windows host
+            win_shell: |
+                        [String]$username1 = "{{ username }}"
+                        $ErrorActionPreference = 'SilentlyContinue'
+                        New-AdGroup -Name "Automations" -SamAccountName Automations -Groupcategory security -groupscope global -Path "OU=IT,DC=domain,DC=com"
+                        Add-ADGroupMember -identity "Automations" -Members $username1
 
